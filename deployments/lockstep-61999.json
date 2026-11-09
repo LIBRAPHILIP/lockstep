@@ -1,0 +1,11 @@
+{
+  "primitive": "Lockstep",
+  "version": "1.0.0-lockstep",
+  "address": "0xFd5e6A673453FB63016BFCC24c614A482537B338",
+  "chainId": 61999,
+  "network": "studionet",
+  "deployTx": "0xcbe473dcd573f69cb6c0d4349faa9df0feeb60dc7cb4e311f71d9ecebb8ab479",
+  "explorer": "https://explorer-studio.genlayer.com/address/0xFd5e6A673453FB63016BFCC24c614A482537B338",
+  "deployedAt": "2026-11-09T02:16:41.869Z",
+  "deployer": "0x5321B1C2eeA29752aBD1bD8bc9A265eeaF642CfA"
+}

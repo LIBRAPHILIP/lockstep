@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lockstep — sealed workflow automation</title>
+    <meta
+      name="description"
+      content="Lockstep freezes a release checklist on GenLayer. GEN moves only after every gate closes: a public registry fact, read by validators, or a named signature."
+    />
+    <meta name="theme-color" content="#08110d" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="top">
+      <a class="mark" href="#compose">Lockstep</a>
+      <p class="mark-note">Workflow automation · GenLayer</p>
+      <nav>
+        <a href="#compose">Fund a run</a>
+        <a href="#desk">Desk</a>
+        <a href="#rules">Rules</a>
+        <a id="githubLink" href="https://github.com/LIBRAPHILIP/lockstep">GitHub</a>
+      </nav>
+      <div class="session">
+        <label class="sr" for="networkSelect">Network</label>
+        <select id="networkSelect">
+          <option value="studionet">Studionet</option>
+          <option value="bradbury">Bradbury</option>
+          <option value="localnet">Localnet</option>
+        </select>
+        <button type="button" class="ghost" id="btnEphemeral">Ephemeral account</button>
+        <button type="button" class="solid" id="btnWallet">Connect wallet</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <canvas id="yard" aria-hidden="true"></canvas>
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-pip" id="healthPip"></span><span id="healthText">Checking Studionet</span></p>
+        <h1>The checklist cannot be edited after the deposit.</h1>
+        <p class="lede">
+          A release workflow that pays someone usually lives in a tool the operator can edit.
+          Lockstep freezes the gates when the sponsor funds them. A fact gate closes only when
+          validators re-read npm, PyPI, or a GitHub release. A signature cannot skip that read,
+          and the page cannot tick the box.
+        </p>
+        <dl class="facts">
+          <div><dt>Pays</dt><dd>Every gate closed</dd></div>
+          <div><dt>Refunds</dt><dd>Deadline, gate still open</dd></div>
+          <div><dt>Decides</dt><dd>No LLM. Registries and signatures.</dd></div>
+        </dl>
+      </div>
+      <ol class="sample-track" aria-label="Example workflow">
+        <li class="signal is-closed">
+          <span class="lamp"></span>
+          <span class="lever"></span>
+          <span class="signal-kicker">01 · Fact</span>
+          <strong>npm left-pad 1.3.0</strong>
+          <em>Validators fetch the registry</em>
+        </li>
+        <li class="signal is-live">
+          <span class="lamp"></span>
+          <span class="lever"></span>
+          <span class="signal-kicker">02 · Attest</span>
+          <strong>Named account signs</strong>
+          <em>A signature, not a checkbox</em>
+        </li>
+        <li class="signal">
+          <span class="lamp dim"></span>
+          <span class="lever"></span>
+          <span class="signal-kicker">Terminal</span>
+          <strong>Settle the GEN</strong>
+          <em>Not a gate. Money moves here.</em>
+        </li>
+      </ol>
+    </section>
+
+    <main>
+      <section class="panel" id="compose">
+        <div class="panel-head">
+          <h2>Fund a run</h2>
+          <p>The manifest below is a draft. Funding writes it into the contract. After that, nothing in the form can change it.</p>
+        </div>
+        <div class="templates" id="templates"></div>
+        <form id="fundForm">
+          <div class="grid-2">
+            <label>Title <input id="title" name="title" maxlength="60" required value="Ship left-pad 1.3.0" /></label>
+            <label>Payee <input id="payee" name="payee" spellcheck="false" placeholder="0x payee" required /></label>
+          </div>
+          <label>Note <input id="note" name="note" maxlength="160" value="Pay the signer once npm shows left-pad 1.3.0." /></label>
+          <div class="grid-2">
+            <label>Deposit, GEN
+              <input id="amount" name="amount" inputmode="decimal" value="0.02" required />
+            </label>
+            <label>Deadline
+              <select id="deadline">
+                <option value="86400" selected>1 day</option>
+                <option value="3600">1 hour</option>
+                <option value="604800">7 days</option>
+                <option value="120">2 minutes — refund drill</option>
+              </select>
+            </label>
+          </div>
+          <label class="spec-label">Manifest
+            <textarea id="spec" name="spec" rows="5" spellcheck="false">fact npm left-pad 1.3.0
+attest 0x</textarea>
+          </label>
+          <p class="hint" id="localPreview">Add a real signer on the attest line.</p>
+          <div class="row-actions">
+            <button type="button" class="ghost" id="btnUseAccount">Put my account on attest gates</button>
+            <button type="button" class="ghost" id="btnPreview">Ask the contract to preview</button>
+            <button type="submit" class="solid" id="btnFund">Fund this manifest</button>
+          </div>
+          <p class="hint" id="chainPreview"></p>
+        </form>
+      </section>
+
+      <section class="panel" id="sessionPanel">
+        <div class="panel-head">
+          <h2>Contract</h2>
+          <p id="accountLine">No account yet. An ephemeral Studionet account can be funded from the studio faucet.</p>
+        </div>
+        <div class="contract-row">
+          <label class="grow">Address
+            <input id="contractAddress" spellcheck="false" placeholder="0x Lockstep contract" />
+          </label>
+          <button type="button" class="ghost" id="btnBind">Bind</button>
+          <button type="button" class="ghost" id="btnDeploy">Deploy</button>
+          <button type="button" class="ghost" id="btnFaucet">Fund account</button>
+        </div>
+        <p class="hint" id="metaLine">Meta loads after the address is bound.</p>
+        <p class="hint">Attest remark <input id="remark" maxlength="80" placeholder="Optional note stored with the signature" /></p>
+      </section>
+
+      <section id="desk">
+        <div class="panel-head">
+          <h2>Desk</h2>
+          <p>Runs are read from the contract. A lamp turns only after a transaction is accepted and the run is reloaded.</p>
+        </div>
+        <div id="runList"></div>
+      </section>
+
+      <section class="panel" id="rules">
+        <div class="panel-head">
+          <h2>What the contract will and will not do</h2>
+          <p>The desk is a window. These rules are the ones in <code>contracts/lockstep.py</code>.</p>
+        </div>
+        <div class="rule-grid">
+          <article>
+            <h3>Frozen manifest</h3>
+            <p>There is no edit, reorder, or skip call. The spec stored at funding is the spec that settles.</p>
+          </article>
+          <article>
+            <h3>Contract-built URLs</h3>
+            <p>npm, PyPI, and GitHub Releases only. A sponsor cannot point a fact gate at a page they control.</p>
+          </article>
+          <article>
+            <h3>Order</h3>
+            <p>The next open gate is the only one that can close. A signature waits behind a registry read.</p>
+          </article>
+          <article>
+            <h3>Fail closed</h3>
+            <p>An unreadable source, a draft GitHub release, or a yanked PyPI file leaves the gate open. It is not a match and it is not a refund, until the deadline.</p>
+          </article>
+          <article>
+            <h3>Terminal transfer</h3>
+            <p>Settle pays the payee the full deposit once every gate is closed, including after the deadline. Refund pays the sponsor only when the deadline has passed and a gate is still open.</p>
+          </article>
+          <article>
+            <h3>Unwind</h3>
+            <p>Sponsor and payee can both consent. Either one is not enough, unless they are the same account. Then anyone can unwind the deposit back to the sponsor.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <aside class="annunciator" id="life" aria-live="polite">
+      <div class="lamps" id="lifeLamps">
+        <span data-phase="submitting">Submitted</span>
+        <span data-phase="consensus">Consensus</span>
+        <span data-phase="accepted">Accepted</span>
+        <span data-phase="finality">Finality</span>
+      </div>
+      <p id="lifeMessage">No transaction yet. Funding, advance, attest, settle, refund, and unwind each wait for an accepted receipt.</p>
+      <p class="life-links">
+        <a id="lifeTx" hidden target="_blank" rel="noopener"></a>
+        <button type="button" class="ghost tiny" id="btnRefreshTx" hidden>Refresh status</button>
+        <button type="button" class="ghost tiny" id="btnAppeal" hidden>Appeal</button>
+        <button type="button" class="ghost tiny" id="btnFinalize" hidden>Finalize</button>
+      </p>
+      <dl id="lifeFacts"></dl>
+    </aside>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

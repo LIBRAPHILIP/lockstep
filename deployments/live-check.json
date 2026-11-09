@@ -1,0 +1,21 @@
+{
+  "address": "0xFd5e6A673453FB63016BFCC24c614A482537B338",
+  "runId": "0",
+  "status": "PAID",
+  "settlement_basis": "all_gates_closed",
+  "escrow_wei": "0",
+  "fact": {
+    "source": "https://registry.npmjs.org/left-pad/1.3.0",
+    "outcome": "match",
+    "reason": "name_version_match",
+    "observed_name": "left-pad",
+    "observed_version": "1.3.0"
+  },
+  "txs": {
+    "fund": "0x977a9dfe67c16b07073029297da7bc4ca43774d8d6967cce79b7d2fa76c382d3",
+    "advance": "0x4eaefe9b5825c5850e6963ebb1629101010c90fd594e5139e35c28a095b80c0c",
+    "attest": "0x996133f4515ef0288e8a8a81c0af2ef299918b305c067173a667f64315999d4a",
+    "settle": "0x2fd509b5a6c3f9636aa8a89fd4d43bcaec24633643fe895c1845ad71b286593e"
+  },
+  "checkedAt": "2026-11-09T02:18:38.634Z"
+}

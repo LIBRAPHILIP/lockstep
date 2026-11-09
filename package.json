@@ -1,0 +1,24 @@
+{
+  "name": "lockstep",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lockstep freezes a release workflow on GenLayer and pays only when every gate closes.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4175",
+    "test": "node --test tests/rules.node.test.js",
+    "test:py": "python -m unittest tests.test_rules",
+    "deploy:studionet": "node scripts/deploy.mjs studionet",
+    "verify:live": "node scripts/verify-live.mjs",
+    "demo:studionet": "node scripts/demo-run.mjs"
+  },
+  "dependencies": {
+    "genlayer-js": "^1.1.8",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7"
+  }
+}
